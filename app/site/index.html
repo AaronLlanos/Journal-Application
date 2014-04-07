@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+
+    <!--Change to app.min.css for production-->
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+
+
+    <style>
+    p.active{
+      background-color:  rgb(235, 104, 100);
+    }
+    </style>
+
+  </head>
+
+  <body style="margin-top:120px;">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Journal Application</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container"> 
+
+        <div class="row">
+
+            <div class="col-md-4" id="page-sidebar">
+              
+            </div>
+
+            <div class="col-md-8" id="page-main">
+
+            </div>
+
+        </div>
+
+    </div><!-- /.container -->
+
+    <!-- build:js scripts/amd-app.js -->
+    <script type="text/javascript" src="js/libs/require.js" data-main="js/app/config/init.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>
