@@ -1,40 +1,25 @@
-// Module dependencies.
 var application_root = __dirname;
 
-var express = require('express'); //Web framework
-var path = require('path'); //Utilities for dealing with file paths 
-var mongoose = require('mongoose'); //MongoDB integration
+var express = require('express');
+var path = require('path');
+var mongoose = require('mongoose');
 var moment = require('moment');
 
-//Create server
 var app = express();
-// Configure server
+
 app.configure(function () {
-    //parses request body and populates request.body 
     app.use(express.bodyParser());
-    //checks request.body for HTTP method overrides
     app.use(express.methodOverride());
-    //perform route lookup based on URL and HTTP method
     app.use(app.router);
-    //Where to serve static content
-    app.use(express.static(path.join(application_root, 'site')));
-    //Show all errors in development
+    app.use(express.static(path.join(application_root, '/site')));
     app.use(express.errorHandler({
         dumpExceptions: true,
         showStack: true
     }));
 });
 
-//Start server
-var port = 3000;
-app.listen(port, function () {
-    console.log('Express server listening on port %d in %s mode',
-    port, app.settings.env);
-});
-
-//Connect to database
 mongoose.connect('mongodb://localhost/library_database');
-//Schemas
+
 var Tags = new mongoose.Schema({
     tag: String
 });
@@ -47,7 +32,6 @@ var Post = new mongoose.Schema({
     date_updated: String
 });
 
-//Models
 var postModel = mongoose.model('Post', Post);
 
 app.post('/api/v1/posts', function (request, response) {
@@ -75,6 +59,12 @@ app.get('/api/v1/posts', function (request, response) {
         } else {
             return console.log(err);
         }
+    });
+});
+
+app.get('/api/v1/posts/:id', function (request, response) {
+    return postModel.findById(request.params.id, function (err, post) {
+        return response.send(post);
     });
 });
 
@@ -113,4 +103,10 @@ app.delete('/api/v1/posts/:id', function (request, response) {
             }
         });
     });
+});
+
+var port = 3000;
+app.listen(port, function () {
+    console.log('Express server listening on port %d in %s mode',
+    port, app.settings.env);
 });

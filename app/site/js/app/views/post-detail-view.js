@@ -1,20 +1,22 @@
-define(['marionette', 'underscore', 'vent', 'models/PostModel', 'text!templates/post-detail.html'],
-    function (Marionette, _, vent, PostModel, template) {
+define(['app', 'marionette', 'underscore', 'Vent', 'text!templates/post-detail-view.html'],
+    function (app, Marionette, _, Vent, template) {
 
         return Marionette.ItemView.extend({
 
             template: _.template(template),
 
-            model: PostModel,
-
-            // View Event Handlers
             events: {
-                'click' : 'something'
+            	'click #edit': 'editPost',
+            	'click #delete': 'deletePost'
             },
 
-            something: function(){
-                console.log(this);
-            }
+            editPost: function() {
+            	app.navigate('#post/edit/' + this.model.get('id'), {trigger: true, replace: true});
+            },	
 
+            deletePost: function() {
+
+            }
+            
         });
     });

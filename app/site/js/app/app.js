@@ -1,28 +1,39 @@
-define(['jquery', 'backbone', 'marionette', 'vent', 'underscore', 'handlebars','views/post-detail-view'],
-    function ($, Backbone, Marionette, vent, _, Handlebars, PostView) {
+define(['jquery', 'backbone', 'marionette', 'Vent', 'underscore', 'collections/PostCollection', 'views/app-navbar', 'views/post-sidebar-view'],
+    function ($, Backbone, Marionette, Vent, _, PostCollection, AppNavbarView, PostSidebarView) {
+        
         var App = new Backbone.Marionette.Application();
 
-        //Organize Application into regions corresponding to DOM elements
-        //Regions can contain views, Layouts, or subregions nested as necessary
         App.addRegions({
             mainRegion:"#page-main",
-            sidebarRegion:'#page-sidebar'
+            sidebarRegion:'#page-sidebar',
+            navbarRegion: '#navbar'
         });
-
-        function isMobile() {
-            var ua = (navigator.userAgent || navigator.vendor || window.opera, window, window.document);
-            return (/iPhone|iPod|iPad|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
-        }
-
-        App.mobile = isMobile();
 
         App.addInitializer(function (options) {
-            Backbone.history.start();
+        
+            App.postCollection = new PostCollection();
+            App.postCollection.fetch();
+
+            App.navbarRegion.show(
+                new AppNavbarView()
+            );
+
+            App.sidebarRegion.show(
+                new PostSidebarView({
+                    collection: App.postCollection
+                })
+            );
+
         });
 
-        vent.on('post:show', function(model){
-            App.mainRegion.show(new PostView({model: model}));
-        });
+        App.navigate = function(route, options) {
+            options || (options = {});
+            Backbone.history.navigate(route, options);
+        };      
+
+        App.getCurrentRoute = function() {
+            return Backbone.history.fragment;
+        };
 
         return App;
     });

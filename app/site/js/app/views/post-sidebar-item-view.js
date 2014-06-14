@@ -1,5 +1,5 @@
-define(['marionette', 'underscore', 'vent', 'models/PostModel', 'text!templates/post-sidebar-item.html'],
-    function (Marionette, _, vent, PostModel, template) {
+define(['app', 'marionette', 'underscore', 'Vent', 'models/PostModel', 'text!templates/post-sidebar-item.html'],
+    function (app, Marionette, _, Vent, PostModel, template) {
 
         return Marionette.ItemView.extend({
 
@@ -7,13 +7,16 @@ define(['marionette', 'underscore', 'vent', 'models/PostModel', 'text!templates/
 
             model: PostModel,
 
-            // View Event Handlers
             events: {
                 'click' : 'showPost'
             },
 
-            showPost: function(){
-                vent.trigger('post:show', this.model);
+            initialize: function() {
+                console.log('hello');
+            },
+
+            showPost: function(){ 
+                app.navigate('#post/' + this.model.get('id'), {trigger: true, replace: true});
             }
 
         });
