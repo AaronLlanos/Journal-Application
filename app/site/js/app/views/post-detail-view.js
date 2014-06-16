@@ -15,7 +15,8 @@ define(['app', 'marionette', 'underscore', 'Vent', 'text!templates/post-detail-v
             },	
 
             deletePost: function() {
-
+                this.model.destroy();
+                this.remove();
             }
             
         });

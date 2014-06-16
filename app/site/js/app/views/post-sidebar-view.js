@@ -1,5 +1,5 @@
-define(['marionette', 'Vent', 'handlebars', 'text!templates/post-sidebar-view.html', 'views/post-sidebar-item-view'],
-    function (Marionette, Vent, Handlebars, template, PostItemView) {
+define(['app', 'marionette', 'Vent', 'handlebars', 'text!templates/post-sidebar-view.html', 'views/post-sidebar-item-view'],
+    function (App, Marionette, Vent, Handlebars, template, PostItemView) {
         
         return Marionette.CompositeView.extend({
 
@@ -11,10 +11,18 @@ define(['marionette', 'Vent', 'handlebars', 'text!templates/post-sidebar-view.ht
 
 		    initialize: function(){
                 this.listenTo(this.collection, 'change', this.render);
+                this.listenTo(this.collection, 'add', this.render);
+            },
+
+            events: {
+                'click #add': 'addPost'
+            },
+
+            addPost: function() {
+                App.navigate('#add', {trigger: true, replace: true});
             },
 
             onRender: function() {
-            	console.log(this.collection);
             }
 
 		  });

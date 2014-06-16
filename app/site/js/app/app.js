@@ -11,9 +11,6 @@ define(['jquery', 'backbone', 'marionette', 'Vent', 'underscore', 'collections/P
 
         App.addInitializer(function (options) {
         
-            App.postCollection = new PostCollection();
-            App.postCollection.fetch();
-
             App.navbarRegion.show(
                 new AppNavbarView()
             );
@@ -34,6 +31,9 @@ define(['jquery', 'backbone', 'marionette', 'Vent', 'underscore', 'collections/P
         App.getCurrentRoute = function() {
             return Backbone.history.fragment;
         };
+
+        App.postCollection = new PostCollection();
+        App.postCollection.fetch();
 
         return App;
     });

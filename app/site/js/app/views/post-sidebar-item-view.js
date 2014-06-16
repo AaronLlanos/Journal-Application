@@ -8,11 +8,10 @@ define(['app', 'marionette', 'underscore', 'Vent', 'models/PostModel', 'text!tem
             model: PostModel,
 
             events: {
-                'click' : 'showPost'
+                'click' : 'showPost',
             },
 
             initialize: function() {
-                console.log('hello');
             },
 
             showPost: function(){ 
